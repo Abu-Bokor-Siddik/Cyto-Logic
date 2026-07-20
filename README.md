@@ -112,26 +112,25 @@ Only the first two phases have been implemented at the moment.
 Cyto Logic follows a layered compiler architecture.
 
 ```
-Client Layer
-      │
-      ▼
-API Gateway
-      │
-      ▼
-Compiler Frontend
-      │
-      ▼
-Circuit Intermediate Representation
-      │
- ┌────┼─────┐
- │    │     │
- ▼    ▼     ▼
-Simulation
-Optimization
-Code Generators
-      │
-      ▼
-Persistence
+                    Client Layer
+                         │
+                         ▼
+                    API Gateway
+                         │
+                         ▼
+                 Compiler Frontend
+                         │
+                         ▼
+        Circuit Intermediate Representation (CIR)
+              ┌──────────┼──────────┐
+              │          │          │
+              ▼          ▼          ▼
+      Simulation   Optimization   Code Generators
+              │          │          │
+              └──────────┼──────────┘
+                         │
+                         ▼
+                    Persistence
 ```
 
 Every major subsystem has a single responsibility.
