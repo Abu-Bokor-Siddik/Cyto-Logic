@@ -2,7 +2,7 @@
 
 A compiler framework for synthetic biology that transforms high-level biological logic into genetic circuit representations.
 
-> **Current Status:** Phase 1 and Phase 2 completed. Parser is under active development.
+> **Current Status:** Phase 1 and Phase 2 completed. Simulation Engine is under active development.
 
 ---
 
@@ -308,28 +308,6 @@ Current and planned testing includes
 - Simulation benchmark validation
 - Pareto front verification
 - SBOL round-trip testing
-
----
-
-# Repository Structure
-
-```
-cyto_logic/
-│
-├── compiler/
-├── lexer/
-├── parser/
-├── ast/
-├── cir/
-├── backend/
-├── frontend/
-├── api/
-├── tests/
-├── docs/
-└── ...
-```
-
-The structure may continue to evolve as additional compiler stages are implemented.
 
 ---
 
