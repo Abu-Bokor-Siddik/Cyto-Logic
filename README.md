@@ -67,43 +67,61 @@ Intermediate Representation
 
 ---
 
-# Compiler Pipeline
+# How Cyto Logic Works
 
 ```
-Source Logic
-      │
-      ▼
- Lexer
-      │
-      ▼
- Token Stream
-      │
-      ▼
- Parser
-      │
-      ▼
- Abstract Syntax Tree
-      │
-      ▼
- Semantic Analysis
-      │
-      ▼
- Circuit IR
-      │
-      ├───────────────┐
-      │               │
-      ▼               ▼
-Simulation      Optimization
-      │               │
-      └───────┬───────┘
-              ▼
-       Code Generators
-              │
-              ▼
- SBOL • BioBrick • DNA • JSON
+User
+ │
+ ▼
+Logic Expression
+ │
+ ▼
+Client Layer
+ │
+ ▼
+API Gateway
+ │
+ ▼
+Lexer
+ │
+ ▼
+Parser
+ │
+ ▼
+Semantic Analyzer
+ │
+ ▼
+Circuit Intermediate Representation (Graph)
+ │
+ ├──────────────┐
+ ▼              │
+Simulation      │
+ │              │
+ ▼              │
+Time-Series      │
+                ▼
+        Optimization
+                │
+                ▼
+      Optimized Circuit
+                │
+                ▼
+        Code Generators
+                │
+                ▼
+ SBOL / FASTA / JSON / Graph
+                │
+                ▼
+          Persistence
 ```
 
-Only the first two phases have been implemented at the moment.
+## Project Phases
+
+Phase 1 ✅
+Phase 2 ✅
+Phase 3 🚧
+Phase 4 🚧
+
 
 ---
 
