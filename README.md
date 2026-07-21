@@ -2,7 +2,7 @@
 
 A compiler framework for synthetic biology that transforms high-level biological logic into genetic circuit representations.
 
-> **Current Status:** Phase 1 and Phase 2 completed. Simulation Engine is under active development.
+> **Current Status:** Phase 1 (Frontend) and Phase 2 (CIR) completed. Simulation Engine is under active development.
 
 ---
 
@@ -32,7 +32,7 @@ The architecture is inspired by modern compiler infrastructures such as LLVM, ad
 
 | Phase | Status |
 |--------|--------|
-| Phase 1 • Compiler Frontend | Completed |
+| Phase 1 • Compiler Frontend | Completed (verified) |
 | Phase 2 • Circuit Intermediate Representation (CIR) | Completed |
 | Phase 3 • Simulation Engine | Planned |
 | Phase 4 • Optimization Engine | Planned |
@@ -53,6 +53,8 @@ Compiler Frontend
 - Parser framework
 - Compiler architecture
 - Error reporting foundation
+- Input validation (size limits, null checks, cycle detection)
+- Unit test suite (41 tests)
 
 ## Phase 2 ✅
 
@@ -318,6 +320,13 @@ Current and planned testing includes
 - [x] AST
 - [x] Circuit IR architecture
 - [x] Backend abstraction
+- [x] Error reporting foundation
+- [x] Unit tests (lexer + parser + gate mapper)
+- [x] Dependency management (requirements.txt)
+- [x] API input validation
+- [x] Cycle-safe graph conversion
+- [x] Vite proxy configuration
+- [x] ErrorBoundary
 - [ ] Semantic Analyzer
 - [ ] Complete Parser
 - [ ] Simulation Engine

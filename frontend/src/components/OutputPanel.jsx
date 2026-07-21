@@ -88,7 +88,7 @@ export default function OutputPanel({result}) {
             }}
           >
             <span style={{ fontFamily: 'monospace', color: '#00ffcc' }}>{part.id}</span>
-            <span style={{ color: '#888' }}>{part.type}</span>
+            <span style={{ color: '#888' }}>{part.role}</span>
           </div>
         ))}
         

@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+.env.local
+*.egg-info/
+dist/
+build/
+.venv/
+node_modules/
+.DS_Store
+*.log
+.vscode/
+.idea/
+AGENT.md
+
+# Vite boilerplate (not part of Cyto Logic)
+frontend/src/App.tsx
+frontend/src/assets/vite.svg
+frontend/src/assets/react.svg
+frontend/src/assets/hero.png
+frontend/public/icons.svg
