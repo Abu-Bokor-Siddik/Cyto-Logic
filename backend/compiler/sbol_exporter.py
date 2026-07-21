@@ -16,10 +16,8 @@ in a standard exchange format.
 import sbol2
 
 class SBOLExporter:
-    def create_document(self, parts, name):
-        # Every generated document belongs to the same project namespace.
-        sbol2.setHomespace('http://cytologic.org')
-        sbol2.Config.setOption('validate', False)
+    def create_document(self, parts, name, homespace='http://cytologic.org'):
+        sbol2.setHomespace(homespace)
         
         doc = sbol2.Document()
         # SBOL identifiers should not contain spaces.

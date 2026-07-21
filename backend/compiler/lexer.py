@@ -119,8 +119,8 @@ class BioLexer:
                     )
 
                 continue
-            """Ignore characters that are not part of the language.
-            # The parser will report syntax problems later if needed."""
+            # Ignore characters that are not part of the language.
+            # The parser will report syntax problems later if needed.
             self.move()
         # Makes parsing easier because there is always one final token to stop on.
         self.tokens.append(Token('EOF', '', self.idx))

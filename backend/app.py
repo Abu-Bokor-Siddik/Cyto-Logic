@@ -1,69 +1,90 @@
-"""
-Core responsibility
-----------------------------------------------------
-Expose the compiler as a REST API for the frontend.
-This module receives either a logic expression or a
-visual circuit, runs the complete compilation pipeline,
-and returns the generated biological design. It also
-provides SBOL export so the result can be used outside
-the application.
-
-Design note
-----------------------------------------------------
-I kept the Flask routes thin on purpose. The compiler,
-parser, mapper and exporter all live in separate modules.
-That makes each layer easier to test and change without
-touching the web API.
-"""
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
-import io
 import sbol2
 from compiler.lexer import BioLexer
 from compiler.parser import BioParser
 from compiler.gate_mapper import BioGateMapper
 from compiler.sbol_exporter import SBOLExporter
+from compiler.parts_db import GATES_DB, BIOMOLECULES, REPORTERS
 
 app = Flask(__name__)
-CORS(app) 
+CORS(app)
 
 def graph_to_logic(nodes, edges):
-    #Convert a visual React Flow graph into the compiler's textual language.
     if not nodes:
         return ""
-        
+
     node_registry = {n['id']: n['data'] for n in nodes}
-    
-    # I identify the output by looking for the node that has no outgoing connection.
     active_sources = {e['source'] for e in edges}
-    endpoints = [n for n in nodes if n['id'] not in active_sources and n['data'].get('type') == 'OUTPUT']
-    
+    active_targets = {e['target'] for e in edges}
+
+    endpoints = [
+        n for n in nodes
+        if n['id'] not in active_sources
+           and n['data'].get('type') == 'OUTPUT'
+    ]
+
     if not endpoints:
-        raise ValueError("circuit design error: missing an output reporter gene node.")
-        
+        raise ValueError("Circuit design error: missing an output reporter gene node.")
+
+    if len(endpoints) > 1:
+        app.logger.warning(
+            "Multiple output nodes detected (%s); using first one.",
+            [e['data'].get('label') for e in endpoints]
+        )
+
     final_node = endpoints[0]
     protein_output = final_node['data']['label']
 
-    def trace_back(current_id):
+    orphan_inputs = [
+        n['data'].get('label') for n in nodes
+        if n['data'].get('type') == 'INPUT'
+           and n['id'] not in active_targets
+           and n['id'] in active_sources
+    ]
+    if orphan_inputs:
+        app.logger.warning(
+            "Unconnected input nodes detected: %s", orphan_inputs
+        )
+
+    def trace_back(current_id, visited=None):
+        if visited is None:
+            visited = set()
+        if current_id in visited:
+            app.logger.warning(
+                "Cycle detected at node %s; breaking to prevent infinite recursion.",
+                current_id
+            )
+            return f"...(cycle at {current_id})..."
+        visited.add(current_id)
+
         node_info = node_registry.get(current_id, {})
         kind = node_info.get('type', 'INPUT')
 
         parent_links = [e['source'] for e in edges if e['target'] == current_id]
-        
+
         if kind == 'INPUT' or not parent_links:
             return node_info.get('label', 'Unknown')
-            
+
         if kind == 'NOT':
-            return f"NOT {trace_back(parent_links[0])}"
-            
+            if len(parent_links) > 1:
+                app.logger.warning(
+                    "NOT gate at %s has %d inputs; using first one.",
+                    current_id, len(parent_links)
+                )
+            return f"NOT {trace_back(parent_links[0], visited)}"
+
         if kind == 'AND':
-            elements = [trace_back(p) for p in parent_links]
+            elements = [trace_back(p, visited) for p in parent_links]
             return f"({' AND '.join(elements)})"
-            
+
         if kind == 'OR':
-            elements = [trace_back(p) for p in parent_links]
+            elements = [trace_back(p, visited) for p in parent_links]
             return f"({' OR '.join(elements)})"
-            
+
+        if kind == 'OUTPUT':
+            return trace_back(parent_links[0], visited)
+
         return node_info.get('label', 'Unknown')
 
     gate_logic = trace_back(final_node['id'])
@@ -77,23 +98,41 @@ def process_circuit_compilation():
 
     if not statement:
         try:
-            statement = graph_to_logic(payload.get('nodes', []), payload.get('edges', []))
-        except Exception as err:
-            return jsonify({"success": False, "error": f"graph conversion failed: {str(err)}"}), 400
+            statement = graph_to_logic(
+                payload.get('nodes', []),
+                payload.get('edges', [])
+            )
+        except (ValueError, KeyError) as err:
+            return jsonify({
+                "success": False,
+                "error": f"Graph conversion failed: {str(err)}"
+            }), 400
+
+    if len(statement) > 10000:
+        return jsonify({
+            "success": False,
+            "error": "Input too long (max 10000 characters)."
+        }), 400
 
     try:
         lexer_engine = BioLexer(statement)
         generated_tokens = lexer_engine.tokenize()
-        
+
         parser_engine = BioParser(generated_tokens)
         syntax_tree = parser_engine.parse()
-        
+
         mapping_engine = BioGateMapper()
         synthesis_result = mapping_engine.map_circuit(syntax_tree)
 
+        if synthesis_result is None:
+            return jsonify({
+                "success": False,
+                "error": "Compiler produced no output from the given input."
+            }), 400
+
         nodes_dict = synthesis_result.get("circuit_structure", {})
         edges_list = synthesis_result.get("connections", [])
-        
+
         return jsonify({
             "success": True,
             "logic": statement,
@@ -105,11 +144,18 @@ def process_circuit_compilation():
                 "edges": edges_list
             }
         })
-        
+
     except SyntaxError as syn_ex:
-        return jsonify({"success": False, "error": f"bad code syntax: {str(syn_ex)}"}), 400
+        return jsonify({
+            "success": False,
+            "error": f"Syntax error: {str(syn_ex)}"
+        }), 400
     except Exception as general_ex:
-        return jsonify({"success": False, "error": f"internal compilation breakdown: {str(general_ex)}"}), 500
+        app.logger.exception("Internal compilation failure")
+        return jsonify({
+            "success": False,
+            "error": f"Internal compilation error: {str(general_ex)}"
+        }), 500
 
 
 @app.route('/api/export/sbol', methods=['POST'])
@@ -117,39 +163,40 @@ def handle_sbol_download():
     payload = request.get_json()
     target_parts = payload.get('parts', [])
     project_title = payload.get('name', 'untitled')
-    
+
+    if not isinstance(target_parts, list) or len(target_parts) > 500:
+        return jsonify({
+            "success": False,
+            "error": "Parts list must be an array of at most 500 items."
+        }), 400
+
     try:
-        sbol2.setHomespace('http://cytologic.org')
         exporter_tool = SBOLExporter()
-        
-        print(f"DEBUG: Starting export for {project_title} with {len(target_parts)} parts.")
-        
         doc = exporter_tool.create_document(target_parts, project_title)
-        
-        print("DEBUG: Document created successfully. Attempting to write XML...")
-        
+
         xml_data = doc.writeString()
-        
-        print("DEBUG: XML string generated.")
-        
+
         return Response(
             xml_data,
             mimetype='application/xml',
-            headers={"Content-Disposition": f"attachment; filename={project_title}.xml"}
+            headers={
+                "Content-Disposition":
+                    f"attachment; filename={project_title}.xml"
+            }
         )
-        
+
     except Exception as e:
-        import traceback
-        print("--- Find a critical error ---")
-        traceback.print_exc()
+        app.logger.exception("SBOL export failed")
         return jsonify({"success": False, "error": str(e)}), 500
 
 
 @app.route('/api/parts', methods=['GET'])
 def fetch_parts_inventory():
-    from compiler.parts_db import GATES_DB, BIOMOLECULES, REPORTERS
-    
-    combined_keys = list(GATES_DB.keys()) + list(BIOMOLECULES.keys()) + list(REPORTERS.keys())
+    combined_keys = (
+        list(GATES_DB.keys())
+        + list(BIOMOLECULES.keys())
+        + list(REPORTERS.keys())
+    )
     return jsonify({
         "gates": combined_keys,
         "count": len(combined_keys)

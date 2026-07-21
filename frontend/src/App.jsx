@@ -14,6 +14,7 @@ which keeps the data flow simple and avoids unnecessary
 state management.
 */
 import { useState } from 'react';
+import { ReactFlowProvider } from 'reactflow';
 import CircuitCanvas from './components/CircuitCanvas';
 import PartsPanel from './components/PartsPanel';
 import OutputPanel from './components/OutputPanel';
@@ -40,7 +41,9 @@ export default function App() {
       
       {/* The canvas grows to fill any remaining workspace. */}
       <div style={{ flex: 1, position: 'relative', background: '#181818' }}>
-        <CircuitCanvas onResult={setResult} />
+        <ReactFlowProvider>
+          <CircuitCanvas onResult={setResult} />
+        </ReactFlowProvider>
       </div>
 
       {/* Results are isolated from the editor so they update independently. */}
