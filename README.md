@@ -42,7 +42,7 @@ The architecture is inspired by modern compiler infrastructures such as LLVM, ad
 
 # Completed Features
 
-## Phase 1
+## Phase 1 ✅
 
 Compiler Frontend
 
@@ -54,7 +54,7 @@ Compiler Frontend
 - Compiler architecture
 - Error reporting foundation
 
-## Phase 2
+## Phase 2 ✅
 
 Intermediate Representation
 
@@ -98,7 +98,7 @@ Circuit Intermediate Representation (Graph)
 Simulation      │
  │              │
  ▼              │
-Time-Series      │
+Time-Series     │
                 ▼
         Optimization
                 │
@@ -114,13 +114,6 @@ Time-Series      │
                 ▼
           Persistence
 ```
-
-## Project Phases
-
-Phase 1 ✅
-Phase 2 ✅
-Phase 3 🚧
-Phase 4 🚧
 
 
 ---
