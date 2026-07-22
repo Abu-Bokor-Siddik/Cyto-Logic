@@ -1,3 +1,18 @@
+/*
+Core responsibility
+-------------------------------------------------
+Provide the interactive circuit editor used by
+the frontend. Users can build genetic circuits,
+modify nodes, and send the finished design to
+the compiler.
+
+Design note
+-----------------------------------------------
+I kept all canvas-related behavior inside this
+component. The rest of the application only
+receives the compilation result and never deals
+with React Flow directly.
+*/
 import { useState, useCallback, useEffect, useRef } from 'react';
 import ReactFlow, {
   addEdge,
@@ -31,6 +46,7 @@ export default function CircuitCanvas({ onResult }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [isCompiling, setIsCompiling] = useState(false);
+  // React Flow provides helper functions such as coordinate conversion through this hook.
   const reactFlowInstance = useReactFlow();
   const reactFlowWrapper = useRef(null);
 
@@ -40,12 +56,12 @@ export default function CircuitCanvas({ onResult }) {
     document.body.style.overflow = "hidden";
     document.body.style.backgroundColor = "#f8f9fa";
   }, []);
-
+  // Every new connection is animated so signal flow stays easy to follow.
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge({ ...params, animated: true }, eds)),
     [setEdges]
   );
-
+  // Double-click lets users rename inputs, gates, or reporter proteins without opening another panel.
   const onNodeDoubleClick = useCallback((event, node) => {
     const currentLabel = node.data.label;
     const newLabel = prompt(`Modify label/protein name for this ${node.data.type} node:`, currentLabel);
@@ -78,6 +94,7 @@ export default function CircuitCanvas({ onResult }) {
       const result = await compileFromGraph(nodes, edges);
       onResult(result);
     } catch (err) {
+      // The UI still receives a result object so it can display the error consistently.
       onResult({ success: false, error: err.message || 'Compilation failed' });
     } finally {
       setIsCompiling(false);
@@ -88,7 +105,7 @@ export default function CircuitCanvas({ onResult }) {
     event.preventDefault();
     const type = event.dataTransfer.getData('application/reactflow');
     if (!type || !reactFlowInstance) return;
-
+    // screenToFlowPosition keeps dropped nodes aligned even after zooming or panning.
     const position = reactFlowInstance.screenToFlowPosition({
       x: event.clientX,
       y: event.clientY,
@@ -150,6 +167,7 @@ export default function CircuitCanvas({ onResult }) {
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
             overflow: 'hidden'
           }}
+          // Matching minimap colors with the main canvas makes node types recognizable at a glance.
           nodeColor={(node) => {
             switch (node.data.type) {
               case 'INPUT':  return '#3B5B75';
