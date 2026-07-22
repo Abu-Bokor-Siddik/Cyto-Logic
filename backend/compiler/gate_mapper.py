@@ -1,6 +1,23 @@
+"""
+Core responsibility
+------------------------------------------------------------
+Translate the validated AST into a biological circuit.
+This mapper converts logic gates into BioBrick parts,
+builds the circuit graph, selects compatible genetic
+implementations, and prepares the final design for
+SBOL export.
+
+Design note
+-------------------------------------------------------
+I separated biological mapping from parsing so the
+compiler stays independent of any specific genetic
+implementation. New gate designs or BioBrick libraries
+can be added by updating the mapping tables instead of
+changing the compiler itself.
+"""
 from .ast_node import ProteinNode, NotGate, AndGate, OrGate, Circuit
 from .parts_db import GATES_DB, BIOMOLECULES, REPORTERS
-
+# Different inputs can use different biological implementations of the same logic gate.
 GATE_IMPL_MAP = {
     "NOT": {
         "aTc": "TetR",
@@ -31,7 +48,8 @@ class BioGateMapper:
                 "role": "CDS",
                 "info": f"Custom CDS for {out_name}"
             })
-
+        # The same BioBrick may appear more than once while traversing the circuit.
+        # I remove duplicates before returning the final design.
         seen = set()
         deduplicated_parts = []
         for part in self.final_parts:
@@ -47,13 +65,14 @@ class BioGateMapper:
             "dna_parts_list": self.final_parts,
             "complexity": len(self.final_parts)
         }
-
+    # Fall back to TetR if no input-specific implementation has been defined.
     def _repressor_for_input(self, input_name):
         return GATE_IMPL_MAP.get("NOT", {}).get(input_name, "TetR")
 
     def traverse(self, node):
         if node is None:
             return None
+        # Every AST node becomes a graph node so the frontend can rebuild the compiled circuit structure.
         current_id = f"gate_{self.counter}"
         self.counter += 1
 
@@ -78,6 +97,7 @@ class BioGateMapper:
                 if isinstance(node.input, ProteinNode)
                 else None
             )
+            # Pick the repressor that matches the incoming biological signal.
             repressor_key = self._repressor_for_input(input_name)
             if repressor_key in BIOMOLECULES:
                 self.final_parts.append(BIOMOLECULES[repressor_key])
