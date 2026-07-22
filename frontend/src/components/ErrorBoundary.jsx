@@ -1,3 +1,17 @@
+/*
+Core responsibility
+------------------------------------------------------
+Catch unexpected React rendering errors and show
+a fallback screen instead of leaving the application
+blank or crashing completely.
+
+Design note
+------------------------------------------------
+I kept the recovery UI inside this component so
+the rest of the application stays focused on its
+own responsibilities. Wrapping the app once is
+enough to protect every child component.
+*/
 import { Component } from 'react';
 
 export default class ErrorBoundary extends Component {
@@ -5,11 +19,11 @@ export default class ErrorBoundary extends Component {
     super(props);
     this.state = { hasError: false, error: null };
   }
-
+  // React calls this automatically after a rendering error.
   static getDerivedStateFromError(error) {
     return { hasError: true, error };
   }
-
+  // Keeping the error in the console makes debugging much easier during development.
   componentDidCatch(error, errorInfo) {
     console.error('ErrorBoundary caught:', error, errorInfo);
   }
@@ -33,6 +47,7 @@ export default class ErrorBoundary extends Component {
             {this.state.error?.message || 'An unexpected error occurred.'}
           </p>
           <button
+            // Reloading is the simplest recovery path for unexpected UI failures.
             onClick={() => window.location.reload()}
             style={{
               padding: '10px 24px',
