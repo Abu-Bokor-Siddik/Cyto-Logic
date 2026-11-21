@@ -1,0 +1,303 @@
+{
+  "schema_version": "2.0",
+  "description": "Cyto-Logic Knowledge Base — BioBrick parts registry with expanded metadata",
+
+  "parts": {
+    "BBa_R0040": {
+      "name": "pTet",
+      "role": "promoter",
+      "description": "TetR repressible promoter",
+      "sequence": "tccctatcagtgatagagattgacatccctatcagtgatagagactagcacatcagcaggacgcactacc",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 1.0, "Kd": 0.01, "n": 2.0 }
+    },
+    "BBa_R0010": {
+      "name": "pLac",
+      "role": "promoter",
+      "description": "LacI repressible promoter",
+      "sequence": "aattgtgagcggataacaattgacattgtgagcggataacaagatactgagcac",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 0.8, "Kd": 0.05, "n": 2.0 }
+    },
+    "BBa_R0051": {
+      "name": "pR",
+      "role": "promoter",
+      "description": "cI repressible promoter",
+      "sequence": "tatcctcggcggtgttgacggggtgtccttgcggtgataat",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 0.9, "Kd": 0.03, "n": 2.0 }
+    },
+    "BBa_I0500": {
+      "name": "pBad",
+      "role": "promoter",
+      "description": "AraC inducible promoter",
+      "sequence": "aatctatttctgagggctgtattttgctaacccattgctcattttttcactaata",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 0.7, "Kd": 0.1, "n": 1.8 }
+    },
+    "BBa_R0062": {
+      "name": "pLux",
+      "role": "promoter",
+      "description": "LuxR inducible promoter",
+      "sequence": "acctgtaggatcgtacaggtagta",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 0.6, "Kd": 0.08, "n": 1.5 }
+    },
+    "BBa_K1847000": {
+      "name": "AND_gate_promoter",
+      "role": "promoter",
+      "description": "AND gate promoter (Split-activator responsive)",
+      "sequence": "tcgacggatccctatcagtgatagagatcggatcctctaga",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 1.0, "Kd": 0.02, "n": 2.0 }
+    },
+    "BBa_K1847001": {
+      "name": "OR_gate_promoter",
+      "role": "promoter",
+      "description": "OR gate dual promoter",
+      "sequence": "gaattctccctatcagtgatagagatctgcagatccctatcagtgatagagatct",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 1.0, "Kd": 0.02, "n": 2.0 }
+    },
+    "BBa_K1847002": {
+      "name": "NAND_gate_promoter",
+      "role": "promoter",
+      "description": "NAND gate promoter (repressor cascade)",
+      "sequence": "tccctatcagtgatagagattgacatccctatcagtgatagagactagcacatc",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 0.9, "Kd": 0.01, "n": 2.5 }
+    },
+    "BBa_K1847003": {
+      "name": "NOR_gate_promoter",
+      "role": "promoter",
+      "description": "NOR gate dual repressor promoter",
+      "sequence": "gaattctccctatcagtgatagagatctgcagaattccctatcagtgatagagatct",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 0.8, "Kd": 0.015, "n": 2.5 }
+    },
+    "BBa_B0034": {
+      "name": "RBS_strong",
+      "role": "RBS",
+      "description": "Strong RBS",
+      "sequence": "aaagaggagaaa",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 1.0 }
+    },
+    "BBa_B0032": {
+      "name": "RBS_medium",
+      "role": "RBS",
+      "description": "Medium strength RBS",
+      "sequence": "tcacacaggaaa",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "strength": 0.5 }
+    },
+    "BBa_B0010": {
+      "name": "T7_terminator",
+      "role": "terminator",
+      "description": "T7 terminator",
+      "sequence": "gctagcataaccccttggggcctctaaacgggtcttgaggggttttttg",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "efficiency": 0.9 }
+    },
+    "BBa_B0012": {
+      "name": "double_terminator_reverse",
+      "role": "terminator",
+      "description": "Double terminator (reverse)",
+      "sequence": "aaaaaacccctccttggggcccccccttttttt",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "efficiency": 0.95 }
+    },
+    "BBa_B0015": {
+      "name": "double_terminator",
+      "role": "terminator",
+      "description": "Double terminator",
+      "sequence": "caggccgaaaaggccgggcgaaaaaacccctccttggggcccccccttttttt",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "efficiency": 0.95 }
+    },
+    "BBa_C0040": {
+      "name": "TetR",
+      "role": "CDS",
+      "description": "TetR repressor protein coding sequence",
+      "sequence": "atgtccagattagataaaagtaaagtgattaacagcgcattagagctgcttaatgaggtcggaatcgaaggtttaacaacccgtaaactcgcccagaagctaggtgtagagcagcctacattgtattggcatgtaaaaaataagcgggctttgctcgacgccttagccattgagatgttagataggcaccatactcacttttgccctttagaaggggaaagctggcaagattttttacgtaataacgctaaaagttttagatgtgctttactaagtcatcgcgatggagcaaaagtacatttaggtacacggcctacagaaaaacagtatgaaactctcgaaaatcaattagcctttttatgccaacaaggtttttcactagagaatgcattatatgcactcagcgctgtggggcattttactttaggttgcgtattggaagatcaagagcatcaagtcgctaaagaagaaagggaaacacctactactgatagtatgccgccattattacgacaagctatcgaattatttgatcaccaaggtgcagagccagccttcttattcggccttgaattgatcatatgcggattagaaaaacaacttaaatgtgaaagtgggtccgcg",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "Kd": 0.01, "n": 2.0 }
+    },
+    "BBa_C0012": {
+      "name": "LacI",
+      "role": "CDS",
+      "description": "LacI repressor protein coding sequence",
+      "sequence": "atggtgaaaccagtaacgttatacgatgtcgcagagtatgccggtgtctcttatcagaccgtttcccgcgtggtgaaccaggccagccacgtttctgcgaaaacgcgggaaaaagtggaagcggcgatggcggagctgaattacattcccaaccgcgtggcacaacaactggcgggcaaacagtcgttgctgattggcgttgccacctccagtctggccctgcacgcgccgtcgcaaattgtcgcggcgattaaatctcgcgccgatcaactgggtgccagcgtggtggtgtcgatggtagaacgaagcggcgtcgaagcctgtaaagcggcggtgcacaatcttctcgcgcaacgcgtcagtgggctgatcattaactatccgctggatgaccaggatgccattgctgtggaagctgcctgcactaatgttccggcgttatttcttgatgtctctgaccagacacccatcaacagtattattttctcccatgaagacggtacgcgactgggcgtggagcatctggtcgcattgggtcaccagcaaatcgcgctgttagcgggcccattaagttctgtctcggcgcgtctgcgtctggctggctggcataaatatctcactcgcaatcaaattcagccgatagcggaacgggaaggcgactggagtgccatgtccggttttcaacaaaccatgcaaatgctgaatgagggcatcgttcccactgcgatgctggttgccaacgatcagatggcgctgggcgcaatgcgcgccattaccgagtccgggctgcgcgttggtgcggatatctcggtagtgggatacgacgataccgaagacagctcatgttatatcccgccgttaaccaccatcaaacaggattttcgcctgctggggcaaaccagcgtggaccgcttgctgcaactctctcagggccaggcggtgaagggcaatcagctgttgcccgtctcactggtgaaaagaaaaaccaccctggcgcccaatacgcaaaccgcctctccccgcgcgttggccgattcattaatgcagctggcacgacaggtttcccgactggaaagcgggcagtga",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "Kd": 0.05, "n": 2.0 }
+    },
+    "BBa_C0051": {
+      "name": "cI",
+      "role": "CDS",
+      "description": "Lambda cI repressor protein coding sequence",
+      "sequence": "atgagcacaaaaaagaaaccattaacacaagagcagcttgaggacgcacgtcgccttaaagcaatttatgaaaaaaaagaaaatgaacttggcttatcccaggaatctgtcgcagacaagatggggatggggcagtcaggcgttggtgctttatttaatggcatcaatgcattaaatgcttataacgccgcattgcttacaaaaattctcaaagttagcgttgaagaatttagcccttcaatcgccagagaaatctacgagatgtatgaagcggttagtatgcagccgtcacttagaagtgagtatgagtaccctgttttttctcatgttcaggcagggatgttctcacctgagcttagaacctttaccaaaggtgatgcggagagatgggtaagcacaaccaaaaaagccagtgattctgcattctggcttgaggttgaaggtaattccatgaccgcaccaacaggctccaagccaagctttcctgacggaatgttaattctcgttgaccctgagcaggctgttgagccaggtgatttctgcatagccagacttgggggtgatgagtttaccttcaagaaaactgatcagggatcgggt",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "Kd": 0.03, "n": 2.0 }
+    },
+    "BBa_C0080": {
+      "name": "AraC_activator",
+      "role": "CDS",
+      "description": "AraC activator protein (full-length)",
+      "sequence": "atggctgaagcgcaaatatccctgatcctgcgcttcacccaggggacggtggaggtgggggtttacgacgacgaggacggggagtggacagtggtgtacggcgcgctgacggacttcgacgctagccgcatcgatgtgctggctgcgctgcaggcgcgtggcgtggtgatgagcggcgagagctttcaacatgacgcaaacggcaccattccggcggcggaactggcgatcgcgtgggcggcgctgggtgtggatgagctgtacggcacgtggcaggcgctgcgtgccaacgccagcgtgcgctggctgcgcgaatacgcgaaacacgccggcggcggcggcggcaaaattggcggtgaacatttactgctggcgcatgcagccgattatcgcgatttacgcgaacgccaggggctgatgcgcgattacagcgaggacgtggcgtgggaacgcgagcaggcggcgaactggccgcgcgcgatccgccagtttttccaggtggtgatggcgcgcgagatcaacgggctgctggcgcagatgccggagcagcagccggagcaggagcagcagccgtgcccgctgcaggtgtttattccgggcggctgggatgcggaaacccatgcgttaaactaccacatgcagtttagtgatcagttacgctacagttggcaactggcggcggcgttggcgcaggagcgggcctcgtataaccagatgccggagggggttatccatcacatcgattacgagcggcgaatggggtctatgattgacgcgggcgaatcggttagctattcgctgaatgccggcgt",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "Kd": 0.1, "n": 1.8 }
+    },
+    "BBa_C0062": {
+      "name": "LuxR",
+      "role": "CDS",
+      "description": "LuxR quorum sensing regulator",
+      "sequence": "atgaaaaacataaatgccgacgacacatacagaataattaataaaattaaagcttgtagaagcaataatgatattaatcaatgcttatctgatatgactaaaatggtatcccacgcaaaaaaattagaagtattaactaatggtagttcacctattccagaagatacccgggttgaagtgcaaaagctgtttagagaagaaaaggcctccatctcaaatgcttattatgaaaatattgagattcctacaatccacggtaattatggcgaaactcctttatggacgacccacgcattcgcaatgattagctcagcaattggcggaacaattattaacaacacaaatatttcatcatcaatgtctactattgaagcgatgccgacgttctcaggattagaaaaacatttagaagagtttgcgaatatcgggaacggctcgaattattcacgtaaacagctttctgaccatggcgtactgaaattccaacaagagtgtgagcgtttggcgagcgctgttttcacgacgcatttcgttcctgcatcaaatcctgttaagaacacgattgttatcgggggtatttcttactggagcgaaccgcaaggggatcaaggggattattcaacagatgtatacgagattattccacaagatgaccggatatggcatcacattttaccaaatggcactggctatgtcccaatgagtaaagatgacgatatcacgtttagcactattgttggattggcgaatgcaactggatccgaatatgagttcaaacttagtaagcgtgcgttgcgttatgctgccgcttttggttatgaaacagagcggaaaacatttgaggactggattaagcagttagcccgtgacgccgagaagccattccgc",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "Kd": 0.08, "n": 1.5 }
+    },
+    "BBa_E0040": {
+      "name": "GFP",
+      "role": "CDS",
+      "description": "Green Fluorescent Protein reporter",
+      "sequence": "atgagtaaaggagaagaacttttcactggagttgtcccaattcttgttgaattagatggtgatgttaatgggcacaaattttctgtcagtggagagggtgaaggtgatgcaacatacggaaaacttacccttaaatttatttgcactactggaaaactacctgttccatggccaacacttgtcactactttcggttatggtgttcaatgctttgcgagatacccagatcatatgaaacagcatgactttttcaagagtgccatgcccgaaggttatgtacaggaaagaactatatttttcaaagatgacgggaactacaagacacgtgctgaagtcaagtttgaaggtgatacccttgttaatagaatcgagttaaaaggtattgattttaaagaagatggaaacattctcggacacaaattggaatacaactataactcacacaatgtatacatcatggcagacaaacaaaagaatggaatcaaagttaacttcaaaattagacacaacattgaagatggaagcgttcaactagcagaccattatcaacaaaatactccaattggcgatggccctgtccttttaccagacaaccattacctgtccacacaatctgccctttcgaaagatcccaacgaaaagagagaccacatggtccttcttgagtttgtaacagctgctgggattacacatggcatggatgaactatacaaataa",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "stability": 1.0, "quantum_yield": 0.6 }
+    },
+    "BBa_E0010": {
+      "name": "RFP",
+      "role": "CDS",
+      "description": "Red Fluorescent Protein reporter",
+      "sequence": "atggcctcctccgaggacgtcatcaaggagttcatgcgcttcaaggtgcgcatggagggctccgtgaacggccacgagttcgagatcgagggcgagggcgagggccgcccctacgagggccacaacaccgtgaagctgaaggtgaccaagggcggccccctgcccttcgcctgggacatcctgtcccctcagttcatgtacggctccaaggcctacgtgaagcaccccgccgacatccccgactacttgaagctgtccttccccgagggcttcaagtgggagcgcgtgatgaacttcgaggacggcggcgtggtgaccgtgacccaggactcctccctgcaggacggctccttcatctacaaggtgaagttcatcggcgtgaacttcccctccgacggccccgtaatgcagaagaagactatgggctgggaggcctccaccgagcgcctgtacccccgcgacggcgtgctgaagggcgagacccacaaggccctgaagctgaaggacggcggccactacctggtggagttcaagtccatctacatggccaagaagcccgtgcagctgcccggctactactacgtggacgccaagctggacatcacctcccacaacgaggactacaccatcgtggaacagtacgagcgctccgagggccgccaccacctgttcctgtag",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "stability": 0.9, "quantum_yield": 0.5 }
+    },
+    "BBa_E0020": {
+      "name": "BFP",
+      "role": "CDS",
+      "description": "Blue Fluorescent Protein reporter",
+      "sequence": "atgagtaaaggagaagaacttttcactggagttgtcccaattcttgttgaattagatggtgatgttaatgggcacaaattttctgtcagtggagagggtgaaggtgatgcaacatacggaaaacttacccttacatttatttgcactactggaaaactacctgttccatggccaacacttgtcactactttcgattatggtgttcaatgctttgcaagatacccagatcatatgaaacagcatgactttttcaagagtgccatgcccgaaggttatgtacaggaaagaactatatttttcaaagatgacgggaactacaagacacgtgctgaagtcaagtttgaaggtgatacccttgttaatagaatcgagttaaaaggtattgattttaaagaagatggaaacattcttggacacaaattggaatacaactataactcacacaatgtatacatcatggcagacaaacaaaagaatggaatcaaagttaacttcaaaattagacacaacattgaagatggaagcgttcaactagcagaccattatcaacaaaatactccaattggcgatggccctgtccttttaccagacaaccattacctgtccacacaatctgccctttcgaaagatcccaacgaaaagagagaccacatggtccttcttgagtttgtaacagctgctgggattacacatggcatggatgaactatacaaataa",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "stability": 1.0, "quantum_yield": 0.55 }
+    },
+    "BBa_E0030": {
+      "name": "YFP",
+      "role": "CDS",
+      "description": "Yellow Fluorescent Protein reporter",
+      "sequence": "atgagtaaaggagaagaacttttcactggagttgtcccaattcttgttgaattagatggtgatgttaatgggcacaaattttctgtcagtggagagggtgaaggtgatgcaacatacggaaaacttacccttagctttatttgcactactggaaaactacctgttccatggccaacacttgtcactactttcggttatggtgttcaatgctttgcaagatacccagatcatatgaaacagcatgactttttcaagagtgccatgcccgaaggttatgtacaggaaagaactatatttttcaaagatgacgggaactacaagacacgtgctgaagtcaagtttgaaggtgatacccttgttaatagaatcgagttaaaaggtattgattttaaagaagatggaaacattctcggacacaaattggaatacaactataactcacacaatgtatacatcatggcagacaaacaaaagaatggaatcaaagttaacttcaaaattagacacaacattgaagatggaagcgttcaactagcagaccattatcaacaaaatactccaattggcgatggccctgtccttttaccagacaaccattacctgtccacacaatctgccctttcgaaagatcccaacgaaaagagagaccacatggtccttcttgagtttgtaacagctgctgggattacacatggcatggatgaactatacaaataa",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "stability": 1.0, "quantum_yield": 0.65 }
+    },
+    "BBa_J06504": {
+      "name": "mCherry",
+      "role": "CDS",
+      "description": "mCherry red fluorescent reporter",
+      "sequence": "atggtgagcaagggcgaggaggataacatggccatcatcaaggagttcatgcgcttcaaggtgcacatggagggctccgtgaacggccacgagttcgagatcgagggcgagggcgagggccgcccctacgagggcacccagaccgccaagctgaaggtgaccaagggtggccccctgcccttcgcctgggacatcctgtcccctcagttcatgtacggctccaaggcctacgtgaagcaccccgccgacatccccgactacttgaagctgtccttccccgagggcttcaagtgggagcgcgtgatgaacttcgaggacggcggcgtggtgaccgtgacccaggactcctccctgcaggacggcgagttcatctacaaggtgaagctgcgcggcaccaacttcccctccgacggccccgtaatgcagaagaagaccatgggctgggaggcctcctccgagcggatgtaccccgaggacggcgccctgaagggcgagatcaagcagaggctgaagctgaaggacggcggccactacgacgctgaggtcaagaccacctacaaggccaagaagcccgtgcagctgcccggcgcctacaacgtcaacatcaagttggacatcacctcccacaacgaggactacaccatcgtggaacagtacgaacgcgccgagggccgccactccaccggcggcatggacgagctgtacaagtaa",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "stability": 0.95, "quantum_yield": 0.22 }
+    },
+    "BBa_I732005": {
+      "name": "LacZ",
+      "role": "CDS",
+      "description": "Beta-galactosidase reporter",
+      "sequence": "atgaccatgattacggattcactggccgtcgttttacaacgtcgtgactgggaaaaccctggcgttacccaacttaatcgccttgcagcacatccccctttcgccagctggcgtaatagcgaagaggcccgcaccgatcgcccttcccaacagttgcgcagcctgaatggcgaatggcgctttgcctggtttccggcaccagaagcggtgccggaaagctggctggagtgcgatcttcctgaggccgatactgtcgtcgtcccctcaaactggcagatgcacggttacgatgcgcccatctacaccaacgtgacctatcccattacggtcaatccgccgtttgttcccacggagaatccgacgggttgttactcgctcacatttaatgttgatgaaagctggctacaggaaggccagacgcgaattatttttgatggcgttaactcggcgtttcatctgtggtgcaacgggcgctgggtcggttacggccaggacagtcgtttgccgtctgaatttgacctgagcgcatttttacgcgccggagaaaaccgcctcgcggtgatggtgctgcgttggagtgacggcagttatctggaagatcaggatatgtggcggatgagcggcattttccgtgacgtctcgttgctgcataaaccgactacacaaatcagcgatttccatgttgccactcgctttaatgatgatttcagccgcgctgtactggaggctgaagttcagatgtgcggcgagttgcgtgactacctacgggtaacagtttctttatggcagggtgaaacgcaggtcgccagcggcaccgcgcctttcggcggtgaaattatcgatgagcgtggtggttatgccgatcgcgtcacactacgtctgaacgtcgaaaacccgaaactgtggagcgccgaaatcccgaatctctatcgtgcggtggttgaactgcacaccgccgacggcacgctgattgaagcagaagcctgcgatgtcggtttccgcgaggtgcggattgaaaatggtctgctgctgctgaacggcaagccgttgctgattcgaggcgttaaccgtcacgagcatcatcctctgcatggtcaggtcatggatgagcagacgatggtgcaggatatcctgctgatgaagcagaacaactttaacgccgtgcgctgttcgcattatccgaaccatccgctgtggtacacgctgtgcgaccgctacggcctgtatgtggtggatgaagccaatattgaaacccacggcatggtgccaatgaatcgtctgaccgatgatccgcgctggctaccggcgatgagcgaacgcgtaacgcgaatggtgcagcgcgatcgtaatcacccgagtgtgatcatctggtcgctggggaatgaatcaggccacggcgctaatcacgacgcgctgtatcgctggatcaaatctgtcgatccttcccgcccggtgcagtatgaaggcggcggagccgacaccacggccaccgatattatttgcccgatgtacgcgcgcgtggatgaagaccagcccttcccggctgtgccgaaatggtccatcaaaaaatggctttcgctacctggagagacgcgcccgctgatcctttgcgaatacgcccacgcgatgggtaacagtcttggcggtttcgctaaatactggcaggcgtttcgtcagtatccccgtttacagggcggcttcgtctgggactgggtggatcagtcgctgattaaatatgatgaaaacggcaacccgtggtcggcttacggcggtgattttggcgatacgccgaacgatcgccagttctgtatgaacggtctggtctttgccgaccgcacgccgcatccagcgctgacggaagcaaaacaccagcagcagtttttccagttccgtttatccgggcaaaccatcgaagtgaccagcgaatacctgttccgtcatagcgataacgagctcctgcactggatggtggcgctggatggtaagccgctggcaagcggtgaagtgcctctggatgtcgctccacaaggtaaacagttgattgaactgcctgaactaccgcagccggagagcgccgggcaactctggctcacagtacgcgtagtgcaaccgaacgcgaccgcatggtcagaagccgggcacatcagcgcctggcagcagtggcgtctggcggaaaacctcagtgtgacgctccccgccgcgtcccacgccatcccgcatctgaccaccagcgaaatggatttttgcatcgagctgggtaataagcgttggcaatttaaccgccagtcaggctttctttcacagatgtggattggcgataaaaaacaactgctgacgccgctgcgcgatcagttcacccgtgcaccgctggataacgacattggcgtaagtgaagcgacccgcattgaccctaacgcctgggtcgaacgctggaaggcggcgggccattaccaggccgaagcagcgttgttgcagtgcacggcagatacacttgctgatgcggtgctgattacgaccgctcacgcgtggcagcatcaggggaaaaccttatttatcagccggaaaacctaccggattgatggtagtggtcaaatggcgattaccgttgatgttgaagtggcgagcgatacaccgcatccggcgcggattggcctgaactgccagctggcgcaggtagcagagcgggtaaactggctcggattagggccgcaagaaaactatcccgaccgccttactgccgcctgttttgaccgctgggatctgccattgtcagacatgtataccccgtacgtcttcccgagcgaaaacggtctgcgctgcgggacgcgcgaattgaattatggcccacaccagtggcgcggcgacttccagttcaacatcagccgctacagtcaacagcaactgatggaaaccagccatcgccatctgctgcacgcggaagaaggcacatggctgaatatcgacggtttccatatggggattggtggcgacgactcctggagcccgtcagtatcggcggaattccagctgagcgccggtcgctaccattaccagttggtctggtgtcaaaaataa",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "stability": 1.0, "activity": 1.0 }
+    },
+    "BBa_K145001": {
+      "name": "aTc",
+      "role": "inducer",
+      "description": "Anhydrotetracycline - induces TetR promoter",
+      "sequence": "",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "solubility": "high", "inducer_efficiency": 1.0 }
+    },
+    "BBa_I13458": {
+      "name": "AraC",
+      "role": "regulatory_protein",
+      "description": "Arabinose regulatory protein",
+      "sequence": "",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "inducer_efficiency": 0.9 }
+    },
+    "BBa_K145000": {
+      "name": "IPTG",
+      "role": "inducer",
+      "description": "IPTG - induces LacI promoter",
+      "sequence": "",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "solubility": "high", "inducer_efficiency": 1.0 }
+    },
+    "BBa_C0061": {
+      "name": "HSL",
+      "role": "inducer",
+      "description": "AHL quorum sensing signal (3OC6HSL)",
+      "sequence": "",
+      "chassis_compatibility": ["E. coli"],
+      "parameters": { "solubility": "medium", "inducer_efficiency": 0.8 }
+    }
+  },
+
+  "gates": {
+    "NOT": [
+      { "id": "BBa_R0040", "role": "promoter", "info": "TetR repressible promoter (pTet)" },
+      { "id": "BBa_B0034", "role": "RBS", "info": "Strong RBS" }
+    ],
+    "AND": [
+      { "id": "BBa_K1847000", "role": "promoter", "info": "AND gate promoter (Split-activator responsive)" },
+      { "id": "BBa_B0034", "role": "RBS", "info": "Strong RBS" }
+    ],
+    "OR": [
+      { "id": "BBa_K1847001", "role": "promoter", "info": "OR gate dual promoter" },
+      { "id": "BBa_B0034", "role": "RBS", "info": "Strong RBS" }
+    ],
+    "NAND": [
+      { "id": "BBa_K1847002", "role": "promoter", "info": "NAND gate promoter (repressor cascade)" },
+      { "id": "BBa_B0034", "role": "RBS", "info": "Strong RBS" }
+    ],
+    "NOR": [
+      { "id": "BBa_K1847003", "role": "promoter", "info": "NOR gate dual repressor promoter" },
+      { "id": "BBa_B0034", "role": "RBS", "info": "Strong RBS" }
+    ]
+  },
+
+  "biomolecules": {
+    "aTc": { "id": "BBa_K145001", "role": "inducer", "info": "Anhydrotetracycline - induces TetR promoter" },
+    "AraC": { "id": "BBa_I13458", "role": "regulatory_protein", "info": "Arabinose regulatory protein" },
+    "IPTG": { "id": "BBa_K145000", "role": "inducer", "info": "IPTG - induces LacI promoter" },
+    "HSL": { "id": "BBa_C0061", "role": "inducer", "info": "AHL quorum sensing signal (3OC6HSL)" },
+    "TetR": { "id": "BBa_C0040", "role": "CDS", "info": "TetR repressor protein coding sequence" },
+    "LacI": { "id": "BBa_C0012", "role": "CDS", "info": "LacI repressor protein coding sequence" },
+    "cI": { "id": "BBa_C0051", "role": "CDS", "info": "Lambda cI repressor protein coding sequence" },
+    "AraC_activator": { "id": "BBa_C0080", "role": "CDS", "info": "AraC activator protein (full-length)" },
+    "LuxR": { "id": "BBa_C0062", "role": "CDS", "info": "LuxR quorum sensing regulator" }
+  },
+
+  "reporters": {
+    "GFP": { "id": "BBa_E0040", "role": "CDS", "info": "Green Fluorescent Protein reporter" },
+    "RFP": { "id": "BBa_E0010", "role": "CDS", "info": "Red Fluorescent Protein reporter" },
+    "BFP": { "id": "BBa_E0020", "role": "CDS", "info": "Blue Fluorescent Protein reporter" },
+    "YFP": { "id": "BBa_E0030", "role": "CDS", "info": "Yellow Fluorescent Protein reporter" },
+    "mCherry": { "id": "BBa_J06504", "role": "CDS", "info": "mCherry red fluorescent reporter" },
+    "LacZ": { "id": "BBa_I732005", "role": "CDS", "info": "Beta-galactosidase reporter" }
+  },
+
+  "additional_parts": {
+    "BBa_B0032": { "role": "RBS", "info": "Medium strength RBS" },
+    "BBa_R0010": { "role": "promoter", "info": "LacI repressible promoter (pLac)" },
+    "BBa_R0051": { "role": "promoter", "info": "cI repressible promoter (pR)" },
+    "BBa_I0500": { "role": "promoter", "info": "AraC inducible promoter (pBad)" },
+    "BBa_R0062": { "role": "promoter", "info": "LuxR inducible promoter (plux)" },
+    "BBa_B0010": { "role": "terminator", "info": "T7 terminator" },
+    "BBa_B0012": { "role": "terminator", "info": "Double terminator (reverse)" }
+  },
+
+  "regulatory_map": {
+    "TetR_protein": { "target_promoter": "BBa_R0040", "action": "repress" },
+    "aTc_inducer": { "target_protein": "TetR", "action": "inhibit_repressor" },
+    "LacI_protein": { "target_promoter": "BBa_R0010", "action": "repress" },
+    "IPTG_inducer": { "target_protein": "LacI", "action": "inhibit_repressor" },
+    "AraC_protein": { "target_promoter": "BBa_I0500", "action": "activate" },
+    "LuxR_protein": { "target_promoter": "BBa_R0062", "action": "activate" },
+    "cI_protein": { "target_promoter": "BBa_R0051", "action": "repress" }
+  }
+}
