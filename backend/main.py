@@ -15,59 +15,62 @@ testing code. Keeping the runner outside the compiler
 makes it easier to reuse the same modules later in
 the web application.
 """
-from compiler.lexer import BioLexer
-from compiler.parser import BioParser
-from compiler.gate_mapper import BioGateMapper
+from compiler.pipeline import CompilerPipeline
+from compiler.backends.dna_backend import DNABackend
+from compiler.backends.simulation_backend import SimulationBackend
+
 
 def run_compiler(source_code):
-    print(f"--- Compiling Code: '{source_code}' ---\n")
-    lexer = BioLexer(source_code)
-    try:
-        tokens = lexer.tokenize()
-        print("[STEP 1] Tokenization Successful!")
-        print(f"Tokens: {tokens}\n")
-    except Exception as e:
-        print(f"[ERROR] Lexing failed: {e}")
-        return
+    print(f"=== Compiling: '{source_code}' ===\n")
 
-    parser = BioParser(tokens)
+    pipeline = CompilerPipeline()
     try:
-        ast_tree = parser.parse()
-        print("[STEP 2] Parsing Successful! (AST Generated)")
-        print(f"AST Tree structure: {ast_tree}\n")
+        cir, messages = pipeline.run(source_code)
     except SyntaxError as e:
-        print(f"[SYNTAX ERROR] Parsing failed: {e}")
+        print(f"[SYNTAX ERROR] {e}")
         return
     except Exception as e:
-        print(f"[ERROR] Parsing failed: {e}")
+        print(f"[ERROR] Compilation failed: {e}")
         return
 
-    mapper = BioGateMapper()
+    print("[STEP 1] Tokenization + Parsing + Semantic Analysis + IR Build — OK")
+    print(f"  Output protein: {cir.output_protein}")
+    print(f"  Complexity score: {cir.complexity}")
+
+    for msg in messages:
+        print(f"  [{msg.severity.upper()}] {msg.message}")
+
+    print("\n[STEP 2] Circuit IR — parts list (5' → 3'):")
+    for i, part in enumerate(cir.all_parts, 1):
+        strand = part.get("strand", "+")
+        s = f" [-] strand" if strand == "-" else ""
+        print(f"  {i}. [{part['role']:<10}] {part['id']:<12} | {part['info']}{s}")
+    print()
+
+    print("[DEMO] DNA Backend (FASTA):")
+    dna = DNABackend()
+    print(dna.generate(cir))
+    print()
+
+    print("[DEMO] Simulation Backend (Hill ODE, RK4):")
+    sim = SimulationBackend(t_span=(0, 20), dt=0.5)
     try:
-        result = mapper.map_circuit(ast_tree)
-        print("[STEP 3] Gate Mapping & DNA Synthesis Successful!\n")
-
-        print("==================================================")
-        print("          GENERATED BIOLOGICAL PLASMID MAP        ")
-        print("==================================================")
-        
-        print(f"Circuit Complexity Score: {result['complexity']}")
-        print("\nSynthesized DNA BioBrick Sequence:")
-
-        # Showing the parts in order makes it easier to compare different compiler outputs.
-        for index, part in enumerate(result["dna_parts_list"], 1):
-            role_upper = part["role"].upper()
-            print(f"  {index}. [{role_upper:<10}] -> ID: {part['id']:<12} | Info: {part['info']}")
-            
-        print("==================================================")
-        
+        result = sim.generate(cir, inputs={"aTc": 10.0, "AraC": 10.0})
+        print(f"  Species: {result['species']}")
+        print(f"  Time points: {result['num_points']}")
+        for sp in result["species"]:
+            final = result["trajectories"][sp][-1]
+            print(f"  {sp} final concentration: {final:.4f}")
     except Exception as e:
-        print(f"[ERROR] Mapping failed: {e}")
-        return
+        print(f"  Simulation failed: {e}")
+    print()
 
 
 if __name__ == "__main__":
-    # Simple program that I use while testing the compilation pipeline.
-    sample_program = "IF (aTc AND AraC) -> GFP"
-    
-    run_compiler(sample_program)
+    for expr in [
+        "IF (aTc AND AraC) -> GFP",
+        "IF (NOT aTc) -> RFP",
+        "IF (aTc OR AraC) -> BFP",
+    ]:
+        run_compiler(expr)
+        print("---\n")
