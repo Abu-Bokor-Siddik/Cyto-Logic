@@ -25,13 +25,7 @@ class Token:
 class BioLexer:
     # Reserved words.
     # Everything else becomes an IDENTIFIER.
-    keywords = {
-        'IF': 'IF',
-        'AND': 'AND',
-        'OR': 'OR',
-        'NOT': 'NOT'
-    }
-    # Keeping these separate makes the identifier rule easier to change later.
+    keywords = {'IF': 'IF', 'AND': 'AND', 'OR': 'OR', 'NOT': 'NOT'}
     letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_"
     digits = "0123456789"
 
@@ -43,7 +37,6 @@ class BioLexer:
         self.char = self.text[self.idx] if len(text) > 0 else None
 
     def move(self):
-        # One helper instead of repeating index updates everywhere.
         self.idx += 1
 
         if self.idx < len(self.text):
