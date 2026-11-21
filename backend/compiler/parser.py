@@ -13,6 +13,7 @@ Details such as BioBrick selection or DNA assembly
 are handled later in the compilation pipeline.
 """
 from .ast_node import ProteinNode, NotGate, AndGate, OrGate, Circuit
+
 class BioParser:
     def __init__(self, tokens):
         self.tokens = tokens
@@ -20,8 +21,6 @@ class BioParser:
         self.token = self.tokens[self.idx] if len(tokens) > 0 else None
 
     def move(self):
-        # Single place for advancing the parser state.
-        # It keeps the rest of the parser a little cleaner.
         self.idx += 1
         if self.idx < len(self.tokens):
             self.token = self.tokens[self.idx]
@@ -29,8 +28,6 @@ class BioParser:
             self.token = None
 
     def check_and_move(self, expected_type):
-        # Every grammar rule eventually comes through here.
-        # It makes syntax errors more consistent.
         if self.token is None:
             raise SyntaxError(f"Expected {expected_type} but reached end of tokens")
             
@@ -42,8 +39,6 @@ class BioParser:
         return current
 
     def parse(self):
-        # The language always starts with IF.
-        # Making this explicit avoids multiple entry points.
         self.check_and_move('IF')
 
         condition = self.parse_expression()
